@@ -7,6 +7,7 @@ from src.schemas.movies import MovieDetailResponseSchema, MovieListResponseSchem
 
 router = APIRouter()
 
+
 @router.get("/movies/{movie_id}/", response_model=MovieDetailResponseSchema)
 async def get_detail_movie(movie_id: int, db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(MovieModel).where(MovieModel.id == movie_id))
@@ -14,6 +15,7 @@ async def get_detail_movie(movie_id: int, db: AsyncSession = Depends(get_db)):
     if not movie:
         raise HTTPException(status_code=404, detail="Movie with the given ID was not found.")
     return movie
+
 
 @router.get("/movies/", response_model=MovieListResponseSchema)
 async def get_movies(
